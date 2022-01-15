@@ -1,5 +1,5 @@
-import { Client } from "@livepeer/webrtmp-sdk";
-import { MutableRefObject } from "react";
+import { CastSession, Client } from "@livepeer/webrtmp-sdk";
+import { MutableRefObject, useRef, useState } from "react";
 import Alpha from "../models/Alpha";
 
 export default function Record({
@@ -9,10 +9,13 @@ export default function Record({
   alpha: Alpha;
   stream: MutableRefObject<MediaStream>;
 }) {
+  const [recording, setRecording] = useState(false);
+  const session = useRef<CastSession>();
+
   async function start() {
-    const livestream = await fetch(`/api/createStream?id=${alpha.id}`).then(
-      (res) => res.json()
-    );
+    const livestream = await fetch(
+      `/api/startStream?name=alpha_${alpha.id}`
+    ).then((res) => res.json());
 
     if (!stream.current) {
       alert("Video stream was not started.");
@@ -25,25 +28,35 @@ export default function Record({
 
     const client = new Client();
 
-    const session = client.cast(stream.current, livestream.streamKey);
+    session.current = client.cast(stream.current, livestream.streamKey);
 
-    session.on("open", () => {
+    session.current.on("open", () => {
       console.log("Stream started.");
-      alert("Stream started; visit Livepeer Dashboard.");
     });
 
-    session.on("close", () => {
+    session.current.on("close", () => {
       console.log("Stream stopped.");
     });
 
-    session.on("error", (err) => {
+    session.current.on("error", (err) => {
       console.log("Stream error.", err.message);
     });
+
+    setRecording(true);
   }
 
-  return (
+  function stop() {
+    session.current?.close();
+    setRecording(false);
+  }
+
+  return recording ? (
+    <button className="rec act" onClick={stop}>
+      <i className="bx bx-stop-circle"></i> Stop
+    </button>
+  ) : (
     <button className="rec act" onClick={start}>
-      <i className="bx bx-circle"></i> Record
+      <i className="bx bxs-circle"></i> Record
     </button>
   );
 }

@@ -22,6 +22,12 @@ export default function AlphaPage() {
         audio: true,
       })
       .then((media) => (stream.current = media));
+
+    return () => {
+      if (stream.current) {
+        stream.current.getTracks().forEach((track) => track.stop());
+      }
+    };
   }, []);
 
   return (
@@ -38,7 +44,7 @@ export default function AlphaPage() {
             alpha.set("name", e.target.value);
             alpha.save();
           }}
-          onKeyPress={(e) => e.key === "Enter" && e.target.blur()}
+          onKeyPress={(e) => e.key === "Enter" && (e.target as any).blur()}
           type="text"
           placeholder={alpha?.attributes.name}
         />
@@ -49,10 +55,6 @@ export default function AlphaPage() {
           </button>
 
           <Record alpha={alpha} stream={stream} />
-
-          <button className="rec act">
-            <i className="bx bx-stop-circle"></i> Stop
-          </button>
         </div>
       </header>
 
