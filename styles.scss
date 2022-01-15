@@ -1,0 +1,356 @@
+@import './components/Editor.scss';
+@import './components/MenuBar.scss';
+@import './components/MenuItem.scss';
+
+@import url('https://fonts.googleapis.com/css?family=PT+Sans:400|Open+Sans:400');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+:root {
+  --base-100: hsla(233, 37%, 57.1%, 1);
+  --base-200: hsla(233, 37.2%, 46.9%, 1);
+  --base-300: hsla(232, 37.2%, 36.9%, 1);
+  --base-400: hsla(232, 37.2%, 26.9%, 1);
+  --base-500: hsla(233, 37.2%, 16.9%, 1);
+  --base-700: hsla(231, 37.1%, 6.9%, 1);
+  --primary-100: hsla(47, 90%, 96.1%, 1);
+  --primary-200: hsla(46, 87%, 91%, 1);
+  --primary-300: hsla(47, 86.1%, 85.9%, 1);
+  --primary-400: hsla(47, 87%, 75.9%, 1);
+  --primary-500: hsla(47, 87.2%, 66.3%, 1);
+  --primary-700: hsla(47, 87.5%, 56.1%, 1);
+  --secondary-100: hsla(240, 73.3%, 97.1%, 1);
+  --secondary-200: hsla(239, 69.7%, 87.1%, 1);
+  --secondary-300: hsla(238, 69.5%, 76.9%, 1);
+  --secondary-400: hsla(238, 70.2%, 67.1%, 1);
+  --secondary-500: hsla(238, 69.9%, 57.1%, 1);
+  --secondary-700: hsla(238, 70%, 47.1%, 1);
+}
+
+/* Typography */
+html {
+  font-size: 100%;
+ /*16px*/
+}
+
+body {
+  background: #1b1f3b;
+  font-family: 'PT Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--base-500);
+  min-height: 100vh;
+}
+
+#__next {
+  min-height: 100vh;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 3rem 0 1.38rem;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--primary-500);
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 5.653rem;
+}
+
+h2 {
+  font-size: 3.998rem;
+}
+
+h3 {
+  font-size: 2.827rem;
+}
+
+h4 {
+  font-size: 1.999rem;
+}
+
+h5 {
+  font-size: 1.414rem;
+}
+
+small,
+.text_small {
+  font-size: 0.707rem;
+}
+
+label,
+.label {
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+.bigger {
+  font-size: 120%;
+}
+
+/* Button */
+button,
+.button {
+  padding: 1rem 1.25rem;
+  border: none;
+  border-radius: 0.25rem;
+  background-color: var(--secondary-500);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+button:hover,
+.button:hover {
+  background-color: var(--secondary-700);
+}
+
+button .bx,
+.button .bx {
+  margin-right: 0.25rem;
+}
+
+/* Auth */
+.auth {
+  display: grid;
+  place-content: center;
+  height: 100vh;
+}
+
+.auth-logo {
+  width: 8rem;
+  margin-left: auto;
+}
+
+.auth .subtitle {
+  font-size: 2rem;
+  color: var(--secondary-100);
+  text-align: center;
+  margin-bottom: 8rem;
+}
+
+/* Header */
+header {
+  background-color: var(--base-700);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+}
+
+header .logo img {
+  max-height: 2.5rem;
+}
+
+header button.wallet {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+header .wallet img {
+  max-height: 2.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.wallet > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+header .wallet span {
+  display: block;
+  font-weight: 300;
+  font-size: 0.9rem;
+  color: var(--secondary-300);
+}
+
+/* Index */
+.index main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 5rem;
+}
+
+.record {
+  background-color: var(--secondary-400);
+  border-radius: 1rem;
+  padding: 5rem;
+  display: grid;
+  place-content: center;
+  transition: background 0.5s;
+  box-shadow: inset 3px 4px 5px var(--base-300);
+}
+
+.record:hover {
+  background-color: var(--secondary-300);
+}
+
+.record a {
+  color: var(--secondary-100);
+  font-weight: 700;
+  font-size: 2rem;
+  display: block;
+  height: 100%;
+}
+
+/* Alpha Tile */
+.alphas li {
+  background: var(--base-400);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr min-content;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 9px 7px 5px -5px rgb(0 0 0 / 21%),
+		-7px -4px 6px 0px rgb(0 0 0 / 15%);
+}
+
+.alphas .thumb {
+  min-width: 150px;
+  aspect-ratio: 3 / 2;
+  background-color: var(--base-700);
+  border-radius: 4px;
+}
+
+.alphas p {
+  margin-bottom: 0;
+}
+
+.alphas .info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.alphas h4 {
+  line-height: 1;
+  margin: 0 0 0.5rem 0;
+  color: var(--secondary-300);
+}
+
+.alphas .meta {
+  color: var(--secondary-200);
+}
+
+.actions {
+  color: var(--secondary-200);
+  display: flex;
+  align-items: center;
+}
+
+.actions a {
+  margin-left: 1rem;
+}
+
+/* Room */
+.room {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+}
+
+header input {
+  background: none;
+  border: none;
+  padding: 0.9rem;
+  width: 100%;
+  font-size: 1.3rem;
+  color: var(--primary-500);
+  line-height: 1.3;
+}
+
+header input::placeholder {
+  color: var(--primary-500);
+}
+
+header input:focus {
+  border: none;
+  border-bottom: 1px solid var(--primary-500);
+  outline: none;
+}
+
+header input:focus::placeholder {
+  opacity: 0.2;
+}
+
+.room .actions .act {
+  margin-right: 1rem;
+  background: none;
+  height: 100%;
+  color: var(--secondary-100);
+}
+
+.room.actions .act:hover {
+  color: #fff;
+}
+
+.room .actions .rec {
+  background: hsl(0, 100%, 20%);
+}
+
+.room .actions .rec:hover {
+  background: hsl(0, 100%, 50%);
+}
+
+.room main {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.stage {
+  background: black;
+  color: white;
+  height: 100%;
+  display: grid;
+  place-content: center;
+}
+
+.notes {
+  background: white;
+  display: flex;
+  height: 100%;
+  place-content: center;
+}
