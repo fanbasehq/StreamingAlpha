@@ -356,3 +356,105 @@ header input:focus::placeholder {
   height: 100%;
   place-content: center;
 }
+
+/* Sharing Dialog */
+.dialog-container {
+  background-color: rgba($color: #000000, $alpha: 0.8);
+  display: grid;
+  place-content: center;
+  position: fixed;
+  height: 100vh;
+  width: 100%
+}
+.dialog {
+	width: 50vw;
+	min-height: 25vh;
+	background-color: var(--secondary-200);
+	box-shadow: 9px 7px 5px -5px rgb(0 0 0 / 21%),
+		-7px -4px 6px 0px rgb(0 0 0 / 15%);
+}
+.dialog header {
+	background: var(--secondary-500);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 1.5rem;
+}
+.dialog header a {
+	color: var(--primary-400);
+	font-size: 2rem;
+}
+.dialog h4 {
+	margin: 0;
+}
+.dialog h5 {
+	color: var(--secondary-500);
+	margin: 0;
+}
+.dialog .content {
+	padding: 1.5rem;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+}
+.dialog li {
+	font-size: 1.25rem;
+	line-height: 1.25rem;
+	padding: 0.25rem;
+	margin-bottom: 0.5rem;
+}
+.dialog label {
+	font-size: 1.25rem;
+	line-height: 1.25rem;
+	padding: 0.25rem;
+	font-weight: 400;
+	display: block;
+	display: flex;
+	align-items: center;
+}
+.dialog .nfts input {
+	margin-right: 0.5rem;
+}
+.dialog .wallets li {
+	display: flex;
+	align-items: center;
+}
+
+.dialog .wallets input,
+.dialog footer input {
+	font-size: 1rem;
+	line-height: 1.25rem;
+	padding: 0.25rem;
+	border: none;
+	margin-right: 0.5rem;
+	width: 100%;
+}
+.dialog footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 1rem 1.5rem;
+	background-color: var(--secondary-300);
+}
+
+.dialog footer button {
+	margin-right: 0.25rem;
+}
+
+.dialog footer .url {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	font-size: 1.2rem;
+	flex-grow: 2;
+}
+.dialog footer input {
+	line-height: 1.5rem;
+	font-size: 1.2rem;
+	max-width: 30ch;
+	height: 100%;
+	margin-left: 1rem;
+	background-color: var(--secondary-200);
+	color: var(--secondary-400);
+	text-align: right;
+}

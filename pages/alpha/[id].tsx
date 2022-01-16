@@ -5,6 +5,7 @@ import { useMoralis } from "react-moralis";
 import { useMountedState } from "react-use";
 import Editor from "../../components/Editor";
 import Record from "../../components/Record";
+import ShareDialog from "../../components/ShareDialog";
 import Stage from "../../components/Stage";
 import Alpha from "../../models/Alpha";
 import useMoralisObject from "../../utils/useMoralisObject";
@@ -14,6 +15,7 @@ export default function AlphaPage() {
   const isMounted = useMountedState();
   const router = useRouter();
   const [stream, setStream] = useState<MediaStream>();
+  const [share, setShare] = useState(false);
 
   const alpha = useMoralisObject<Alpha>("Alpha", router.query.id as string);
 
@@ -52,7 +54,7 @@ export default function AlphaPage() {
         />
 
         <div className="actions">
-          <button className="share act">
+          <button className="share act" onClick={() => setShare(true)}>
             <i className="bx bx-share"></i> Share
           </button>
 
@@ -75,6 +77,10 @@ export default function AlphaPage() {
           </div>
         )}
       </main>
+
+      {alpha && share && (
+        <ShareDialog alpha={alpha} onClose={() => setShare(false)} />
+      )}
     </div>
   );
 }

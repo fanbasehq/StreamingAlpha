@@ -20,15 +20,11 @@ export default function Stage({ alpha, stream }: StageProps) {
 
   return (
     <div className="stage">
-      {alpha.attributes.hlsUrl ? (
+      {alpha.attributes.hlsUrl === "processing" ? (
+        <div>Video is being processed...</div>
+      ) : alpha.attributes.hlsUrl ? (
         <ReactPlayer controls playsinline url={alpha.attributes.hlsUrl} />
       ) : (
-        // <Player
-        //   autoPlay
-        //   playsInline
-        //   // poster="/assets/poster.png"
-        //   src={alpha.attributes.hlsUrl}
-        // />
         <video className="stream-video" ref={videoEl} />
       )}
     </div>

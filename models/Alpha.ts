@@ -1,7 +1,9 @@
 import Moralis from "moralis";
 
 export interface AlphaAttributes {
+  addresses?: string[];
   author: Moralis.User;
+  contracts?: string[];
   hlsUrl?: string;
   name?: string;
   notes?: string;

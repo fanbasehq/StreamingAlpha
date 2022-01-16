@@ -52,7 +52,9 @@ export default function Record({
 
     fetch(`/api/streams/${alpha.attributes.streamId}/end`)
       .then((res) => res.json())
-      .then((session) => alpha.save({ hlsUrl: session.recordingUrl }))
+      .then((session) =>
+        alpha.save({ hlsUrl: session.recordingUrl ?? "processing" })
+      )
       .catch(console.error)
       .then(() => setRecording(false));
   }
