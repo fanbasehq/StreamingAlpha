@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useNFTBalances } from "react-moralis";
-import Alpha, { AlphaAttributes } from "../models/Alpha";
+import Alpha from "../models/Alpha";
 
 export interface ShareDialogProps {
   alpha: Alpha;
@@ -44,6 +44,12 @@ export default function ShareDialog({ alpha, onClose }: ShareDialogProps) {
     name: "addresses",
   } as any);
 
+  const nfts = [
+    { name: "CryptoKitties", symbol: "CK" },
+    { name: "Bored Ape Yach Club" },
+    ...(data?.result ?? []),
+  ];
+
   return (
     <div className="dialog-container">
       <div className="dialog">
@@ -58,13 +64,10 @@ export default function ShareDialog({ alpha, onClose }: ShareDialogProps) {
             <h5>NFTs</h5>
             <p>Anyone holding these NFTs</p>
             <ul>
-              {data?.result?.map((nft) => (
+              {nfts.map((nft) => (
                 <li>
                   <label>
-                    <input type="checkbox" />{" "}
-                    {nft.name ??
-                      nft.symbol ??
-                      nft.token_address?.substring(0, 15)}
+                    <input type="checkbox" /> {nft.name ?? nft.symbol}
                   </label>
                 </li>
               ))}
