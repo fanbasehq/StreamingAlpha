@@ -1,3 +1,4 @@
+import Davatar from "@davatar/react";
 import Moralis from "moralis";
 import { useEffect, useState } from "react";
 import { useMoralis } from "react-moralis";
@@ -12,14 +13,22 @@ export default function UserMenu() {
   }, [user]);
 
   /* <code>{JSON.stringify(user.attributes)}</code>
-      <button onClick={logout}>Logout {user.get("ethAddress")}</button> */
+  <button onClick={logout}>Logout {user.get("ethAddress")}</button> */
+
+  if (!user) return null;
+
+  const address = user.get("ethAddress") as string;
 
   return (
-    <button className="wallet label">
-      <img src="https://i.pravatar.cc/100" />
+    <button className="wallet label" onClick={logout}>
+      <Davatar size={24} address={address} />
+
       <div className="info">
-        <strong>0xA097...52D7</strong>
-        <span>gregariously.eth</span>
+        <strong>
+          {address.substring(0, 6)}...{address.substring(address.length - 4)}
+        </strong>
+
+        <span>{name}</span>
       </div>
     </button>
   );

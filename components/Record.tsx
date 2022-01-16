@@ -1,5 +1,5 @@
 import { CastSession, Client } from "@livepeer/webrtmp-sdk";
-import { MutableRefObject, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Alpha from "../models/Alpha";
 
 export default function Record({
@@ -7,17 +7,17 @@ export default function Record({
   stream,
 }: {
   alpha: Alpha;
-  stream: MutableRefObject<MediaStream>;
+  stream: MediaStream;
 }) {
   const [recording, setRecording] = useState(false);
   const session = useRef<CastSession>();
 
   async function start() {
     const livestream = await fetch(
-      `/api/startStream?name=alpha_${alpha.id}`
+      `/api/streams/create?name=alpha_${alpha.id}`
     ).then((res) => res.json());
 
-    if (!stream.current) {
+    if (!stream) {
       alert("Video stream was not started.");
     }
 
@@ -26,9 +26,11 @@ export default function Record({
       return;
     }
 
+    alpha.save({ streamId: livestream.id });
+
     const client = new Client();
 
-    session.current = client.cast(stream.current, livestream.streamKey);
+    session.current = client.cast(stream, livestream.streamKey);
 
     session.current.on("open", () => {
       console.log("Stream started.");
@@ -47,7 +49,12 @@ export default function Record({
 
   function stop() {
     session.current?.close();
-    setRecording(false);
+
+    fetch(`/api/streams/${alpha.attributes.streamId}/end`)
+      .then((res) => res.json())
+      .then((session) => alpha.save({ hlsUrl: session.recordingUrl }))
+      .catch(console.error)
+      .then(() => setRecording(false));
   }
 
   return recording ? (

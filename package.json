@@ -29,9 +29,11 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-moralis": "^0.3.11",
+    "react-player": "^2.9.0",
     "react-use": "^17.3.2",
     "remixicon": "^2.5.0",
     "sass": "^1.48.0",
+    "video-react": "^0.15.0",
     "yjs": "^13.5.24"
   },
   "devDependencies": {

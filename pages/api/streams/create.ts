@@ -1,37 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default async function startStream(
+export default async function createStream(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const name = req.query.name as string;
 
-  // let stream = await getStream(name);
-
-  // if (!stream)
-  const stream = await createStream(name);
-
-  // stream = await getStream(name);
-
-  console.log(stream);
-
-  res.send(stream);
-}
-
-async function getStream(name: string) {
-  return fetch(
-    `https://livepeer.com/api/stream?streamsonly=1&filters=[{"name":"${name}"}]`,
-    {
-      headers: {
-        Authorization: `Bearer ${process.env.LIVEPEER_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-    }
-  ).then((res) => res.json());
-}
-
-async function createStream(name: string) {
-  return fetch(`https://livepeer.com/api/stream`, {
+  const stream = await fetch(`https://livepeer.com/api/stream`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.LIVEPEER_API_KEY}`,
@@ -62,6 +37,9 @@ async function createStream(name: string) {
           height: 360,
         },
       ],
+      record: true,
     }),
   }).then((res) => res.json());
+
+  res.status(201).send(stream);
 }

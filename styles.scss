@@ -124,6 +124,7 @@ button,
   border-radius: 0.25rem;
   background-color: var(--secondary-500);
   color: white;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -215,6 +216,7 @@ header .wallet span {
 .record {
   background-color: var(--secondary-400);
   border-radius: 1rem;
+  cursor: pointer;
   padding: 5rem;
   display: grid;
   place-content: center;

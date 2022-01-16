@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { useMoralis } from "react-moralis";
 import { useMountedState } from "react-use";
 import Editor from "../../components/Editor";
 import Record from "../../components/Record";
@@ -9,26 +10,27 @@ import Alpha from "../../models/Alpha";
 import useMoralisObject from "../../utils/useMoralisObject";
 
 export default function AlphaPage() {
+  const { user } = useMoralis();
   const isMounted = useMountedState();
   const router = useRouter();
-  const stream = useRef<MediaStream>();
+  const [stream, setStream] = useState<MediaStream>();
 
   const alpha = useMoralisObject<Alpha>("Alpha", router.query.id as string);
 
   useEffect(() => {
+    if (!alpha || alpha.attributes.hlsUrl) return;
+
     navigator.mediaDevices
       .getUserMedia({
         video: true,
         audio: true,
       })
-      .then((media) => (stream.current = media));
+      .then(setStream);
 
     return () => {
-      if (stream.current) {
-        stream.current.getTracks().forEach((track) => track.stop());
-      }
+      stream?.getTracks().forEach((track) => track.stop());
     };
-  }, []);
+  }, [alpha]);
 
   return (
     <div className="room">
@@ -40,13 +42,13 @@ export default function AlphaPage() {
         </Link>
 
         <input
+          defaultValue={alpha?.attributes.name}
           onBlur={(e) => {
-            alpha.set("name", e.target.value);
-            alpha.save();
+            alpha?.set("name", e.target.value);
+            alpha?.save();
           }}
           onKeyPress={(e) => e.key === "Enter" && (e.target as any).blur()}
           type="text"
-          placeholder={alpha?.attributes.name}
         />
 
         <div className="actions">
@@ -54,16 +56,24 @@ export default function AlphaPage() {
             <i className="bx bx-share"></i> Share
           </button>
 
-          <Record alpha={alpha} stream={stream} />
+          {alpha && stream && !alpha?.attributes.hlsUrl && (
+            <Record alpha={alpha} stream={stream} />
+          )}
         </div>
       </header>
 
       <main>
-        <Stage stream={stream} />
+        {alpha && <Stage alpha={alpha} stream={stream} />}
 
-        <div className="notes">
-          {isMounted() && alpha && <Editor name={`alpha_${alpha.id}`} />}
-        </div>
+        {alpha && (
+          <div className="notes">
+            {isMounted() && alpha.attributes.author.id === user?.id ? (
+              <Editor alpha={alpha} />
+            ) : (
+              alpha.attributes.notes
+            )}
+          </div>
+        )}
       </main>
     </div>
   );

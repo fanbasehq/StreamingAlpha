@@ -1,16 +1,19 @@
-import Link from "next/link";
 import { format } from "date-fns";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { useMoralisQuery } from "react-moralis";
+import { useMoralis, useMoralisQuery } from "react-moralis";
+import UserMenu from "../components/UserMenu";
 import Alpha from "../models/Alpha";
 
 export default function HomePage() {
   const router = useRouter();
-  const { data, isLoading } = useMoralisQuery("Alpha");
+  const { user } = useMoralis();
+  const { data } = useMoralisQuery("Alpha", (q) => q.equalTo("author", user));
 
   async function createAlpha() {
     const alpha = new Alpha({
+      author: user,
       name: `Alpha ${Math.random().toString(36).substring(2, 11)}`,
     });
     await alpha.save();
@@ -20,15 +23,20 @@ export default function HomePage() {
   return (
     <div className="index">
       <header>
-        <img
-          src="/assets/logo-secondary-300.svg"
-          alt="Speaking Alpha"
-          className="logo"
-        />
+        <a href="/" className="logo">
+          <img
+            src="/assets/logo-secondary-300.svg"
+            alt="Speaking Alpha"
+            className="logo"
+          />
+        </a>
+
+        <UserMenu />
       </header>
+
       <main>
         <div className="record">
-          <a onClick={createAlpha}>click to record your alpha</a>
+          <a onClick={createAlpha}>Click here to record your alpha</a>
         </div>
 
         <h3>Previous Alphas</h3>

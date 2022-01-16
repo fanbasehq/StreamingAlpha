@@ -5,7 +5,7 @@ import { useMoralis } from "react-moralis";
 export default function useMoralisObject<T extends Moralis.Object>(
   className: string,
   id: string
-) {
+): T | undefined {
   const [object, setObject] = useState<T>();
 
   const { isInitialized } = useMoralis();

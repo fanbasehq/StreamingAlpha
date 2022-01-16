@@ -1,57 +1,50 @@
 import Highlight from "@tiptap/extension-highlight";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
-import Collaboration from "@tiptap/extension-collaboration";
-import CollaborationCursor from "@tiptap/extension-collaboration-cursor";
-import { HocuspocusProvider } from "@hocuspocus/provider";
-
-import {
-  BubbleMenu,
-  EditorContent,
-  FloatingMenu,
-  useEditor,
-} from "@tiptap/react";
+import { BubbleMenu, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import React, { useCallback, useEffect, useState } from "react";
-import * as Y from "yjs";
+import React, { useEffect } from "react";
+import Alpha from "../models/Alpha";
 import MenuBar from "./MenuBar";
 
-const ydoc = new Y.Doc();
+// const ydoc = new Y.Doc();
 
 export interface EditorProps {
-  name: string;
+  alpha: Alpha;
 }
 
-export default function Editor({ name }: EditorProps) {
-  const [status, setStatus] = useState("connecting");
+export default function Editor({ alpha }: EditorProps) {
+  // const [status, setStatus] = useState("connecting");
 
-  const [websocketProvider] = useState(
-    () =>
-      new HocuspocusProvider({
-        url: "wss://connect.hocuspocus.cloud",
-        parameters: {
-          key: "write_B0sHbuV5xwYl6WzGjoqL",
-        },
-        name,
-        document: ydoc,
-      })
-  );
+  // const [websocketProvider] = useState(
+  //   () =>
+  //     new HocuspocusProvider({
+  //       url: "wss://connect.hocuspocus.cloud",
+  //       parameters: {
+  //         key: "write_B0sHbuV5xwYl6WzGjoqL",
+  //       },
+  //       name: alpha.attributes.name,
+  //       document: ydoc,
+  //     })
+  // );
 
   const editor = useEditor({
+    content: alpha.attributes.notes,
     extensions: [
       StarterKit.configure({
-        history: false,
+        // history: false,
       }),
       Highlight,
       TaskList,
       TaskItem,
-      Collaboration.configure({
-        document: ydoc,
-      }),
-      CollaborationCursor.configure({
-        provider: websocketProvider,
-      }),
+      // Collaboration.configure({
+      //   document: ydoc,
+      // }),
+      // CollaborationCursor.configure({
+      //   provider: websocketProvider,
+      // }),
     ],
+    onBlur: ({ editor }) => alpha.save({ notes: editor.getHTML() }),
   });
 
   useEffect(() => {
