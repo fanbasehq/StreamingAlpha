@@ -12,6 +12,8 @@ export default function HomePage() {
   const { data } = useMoralisQuery("Alpha", (q) => q.equalTo("author", user));
 
   async function createAlpha() {
+    if (!user) throw new Error("Not logged in");
+
     const alpha = new Alpha({
       author: user,
       name: `Alpha ${Math.random().toString(36).substring(2, 11)}`,
